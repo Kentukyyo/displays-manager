@@ -30,10 +30,17 @@ class PresentationDisplaysPlugin : FlutterPlugin, ActivityAware, MethodChannel.M
   private var flutterEngineChannel: MethodChannel? = null
   private var context: Context? = null
   private var presentation: PresentationDisplay? = null
+  private var displayManager: DisplayManager? = null
 
-  override fun onAttachedToEngine(
-      @NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
-  ) {
+    // Move constants here
+  companion object {
+      private const val viewTypeId = "presentation_displays_plugin"
+      private const val viewTypeEventsId = "presentation_displays_plugin_events"
+  }
+
+override fun onAttachedToEngine(
+    @NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
+) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, viewTypeId)
     channel.setMethodCallHandler(this)
 
@@ -43,27 +50,10 @@ class PresentationDisplaysPlugin : FlutterPlugin, ActivityAware, MethodChannel.M
             DisplayManager
     val displayConnectedStreamHandler = DisplayConnectedStreamHandler(displayManager)
     eventChannel.setStreamHandler(displayConnectedStreamHandler)
-  }
-
-  companion object {
-    private const val viewTypeId = "presentation_displays_plugin"
-    private const val viewTypeEventsId = "presentation_displays_plugin_events"
-    private var displayManager: DisplayManager? = null
-
-    /** @hide */
-    @Suppress("unused", "DEPRECATION")
-    @JvmStatic
-    fun registerWith(registrar: PluginRegistry.Registrar) {
-      val channel = MethodChannel(registrar.messenger(), viewTypeId)
-      channel.setMethodCallHandler(PresentationDisplaysPlugin())
-
-      val eventChannel = EventChannel(registrar.messenger(), viewTypeEventsId)
-      displayManager =
-          registrar.activity()!!.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-      val displayConnectedStreamHandler = DisplayConnectedStreamHandler(displayManager)
-      eventChannel.setStreamHandler(displayConnectedStreamHandler)
-    }
-  }
+    
+    // Store context from application context initially
+    context = flutterPluginBinding.applicationContext
+}
 
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
@@ -160,10 +150,11 @@ class PresentationDisplaysPlugin : FlutterPlugin, ActivityAware, MethodChannel.M
 
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {}
 
-  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+override fun onAttachedToActivity(binding: ActivityPluginBinding) {
     this.context = binding.activity
+    // Only reassign if we have activity context available
     displayManager = context?.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-  }
+}
 
   override fun onDetachedFromActivityForConfigChanges() {}
 }
