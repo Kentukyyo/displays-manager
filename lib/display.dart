@@ -13,10 +13,10 @@ Display displayReleaseFromJson(Map<String, dynamic> json) => Display(
 
 /// The default Display id, which is the id of the built-in primary display
 /// assuming there is one.
-const int DEFAULT_DISPLAY = 0;
+const int kDefaultDisplay = 0;
 
 /// Invalid display id.
-const int INVALID_DISPLAY = -1;
+const int kInvalidDisplay = -1;
 
 /// Display flag: Indicates that the display supports compositing content
 /// that is stored in protected graphics buffers.
@@ -44,14 +44,14 @@ const int INVALID_DISPLAY = -1;
 /// </p>
 ///
 /// See [Display.flag]
-const int FLAG_SUPPORTS_PROTECTED_BUFFERS = 1 << 0;
+const int kFlagsSupportsProtectedBuffers = 1 << 0;
 
 /// Display flag: Indicates that the display has a secure video output and
 /// supports compositing secure surfaces.
 /// <p>
 /// If this flag is set then the display device has a secure video output
 /// and is capable of showing secure surfaces.  It may also be capable of
-/// showing [FLAG_SUPPORTS_PROTECTED_BUFFERS] protected buffers.
+/// showing [kFlagsSupportsProtectedBuffers] protected buffers.
 /// </p>
 /// <p>
 /// If this flag is not set then the display device may not have a secure video
@@ -66,7 +66,7 @@ const int FLAG_SUPPORTS_PROTECTED_BUFFERS = 1 << 0;
 /// </p>
 /// <p>
 /// An application creates a window with a secure surface by specifying the
-/// [FLAG_SECURE] window flag.
+/// [kFlagSecure] window flag.
 /// Likewise, an application creates a SurfaceView with a secure surface
 /// by calling before attaching the secure view to
 /// its containing window.
@@ -81,25 +81,25 @@ const int FLAG_SUPPORTS_PROTECTED_BUFFERS = 1 << 0;
 /// </p>
 ///
 /// See [Display.flag]
-const int FLAG_SECURE = 1 << 1;
+const int kFlagSecure = 1 << 1;
 
 /// Display flag: Indicates that the display is private.  Only the application that
 /// owns the display and apps that are already on the display can create windows on it.
 ///
 /// See [Display.flag]
-const int FLAG_PRIVATE = 1 << 2;
+const int kFlagPrivate = 1 << 2;
 
 /// Rotation constant: 0 degree rotation (natural orientation)
-const int ROTATION_0 = 0;
+const int kRotation0 = 0;
 
 /// Rotation constant: 90 degree rotation.
-const int ROTATION_90 = 1;
+const int kRotation90 = 1;
 
 /// Rotation constant: 180 degree rotation.
-const int ROTATION_180 = 2;
+const int kRotation180 = 2;
 
 /// Rotation constant: 270 degree rotation.
-const int ROTATION_270 = 3;
+const int kRotation270 = 3;
 
 /// Provides information about of a logical display.
 /// <p>
@@ -115,28 +115,28 @@ class Display {
   /// Gets the display id.
   /// <p>
   /// Each logical display has a unique id.
-  /// The default display has id [DEFAULT_DISPLAY]
+  /// The default display has id [kDefaultDisplay]
   /// </p>
-  int? displayId = DEFAULT_DISPLAY;
+  int? displayId = kDefaultDisplay;
 
   /// Returns a combination of flags that describe the capabilities of the display.
   /// @return The display flags.
   ///
-  /// See [FLAG_SUPPORTS_PROTECTED_BUFFERS], [FLAG_SECURE], [FLAG_PRIVATE]
+  /// See [kFlagsSupportsProtectedBuffers], [kFlagSecure], [kFlagPrivate]
   int? flag;
 
   /// Returns the rotation of the screen from its "natural" orientation.
-  /// The returned value may be [ROTATION_0]
-  /// (no rotation), [ROTATION_90], [ROTATION_180], or [ROTATION_270].  For
+  /// The returned value may be [kRotation0]
+  /// (no rotation), [kRotation90], [kRotation180], or [kRotation270].  For
   /// example, if a device has a naturally tall screen, and the user has
   /// turned it on its side to go into a landscape orientation, the value
-  /// returned here may be either [ROTATION_90] or [ROTATION_270] depending on
+  /// returned here may be either [kRotation90] or [kRotation270] depending on
   /// the direction it was turned.  The angle is the rotation of the drawn
   /// graphics on the screen, which is the opposite direction of the physical
   /// rotation of the device.  For example, if the device is rotated 90
   /// degrees counter-clockwise, to compensate rendering will be rotated by
   /// 90 degrees clockwise and thus the returned value here will be
-  /// [ROTATION_90].
+  /// [kRotation90].
   int? rotation;
 
   /// Gets the name of the display.

@@ -3,17 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('presentation_displays');
-
+  final messengerInstance = TestDefaultBinaryMessengerBinding.instance;
+  final binaryMessenger = messengerInstance.defaultBinaryMessenger;
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+    binaryMessenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
       return '42';
     });
   });
 
   tearDown(() {
-    channel.setMockMethodCallHandler(null);
+    binaryMessenger.setMockMethodCallHandler(channel, null);
   });
 
   test('getPlatformVersion', () async {
