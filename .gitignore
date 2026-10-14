@@ -7,3 +7,12 @@
 build/
 
 .idea/
+
+# Flutter/Dart tooling
+.flutter-plugins-dependencies
+/coverage/
+.build/
+.swiftpm/
+migrate_working_dir/
+*.log
+*.swp
