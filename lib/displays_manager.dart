@@ -63,7 +63,7 @@ class DisplayManager {
             ?.invokeMethod(_listDisplay, category))) ??
         [];
     List<Display> displays = [];
-    for (var element in origins) {
+    for (final element in origins) {
       final map = jsonDecode(jsonEncode(element));
       displays.add(kReleaseMode
           ? displayReleaseFromJson(map as Map<String, dynamic>)
@@ -85,7 +85,7 @@ class DisplayManager {
     List<Display> displays = await getDisplays(category: category) ?? [];
 
     String? name;
-    for (var element in displays) {
+    for (final element in displays) {
       if (element.displayId == displayId) name = element.name;
     }
     return name;
