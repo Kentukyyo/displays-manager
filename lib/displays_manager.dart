@@ -59,15 +59,16 @@ class DisplayManager {
   ///
   /// See [kDisplayCategoryPresentation]
   Future<List<Display>?> getDisplays({String? category}) async {
-    List<dynamic> origins = await jsonDecode((await _displayMethodChannel
-            ?.invokeMethod(_listDisplay, category))) ??
-        [];
+    final displaysJson = await _displayMethodChannel?.invokeMethod(_listDisplay, category);
+    List<dynamic> origins = await jsonDecode(displaysJson) ?? [];
     List<Display> displays = [];
     for (final element in origins) {
-      final map = jsonDecode(jsonEncode(element));
-      displays.add(kReleaseMode
-          ? displayReleaseFromJson(map as Map<String, dynamic>)
-          : displayFromJson(map as Map<String, dynamic>));
+      final map = jsonDecode(jsonEncode(element)) as Map<String, dynamic>;
+      if (kReleaseMode) {
+        displays.add(displayReleaseFromJson(map));
+      } else {
+        displays.add(displayFromJson(map));
+      }
     }
     return displays;
   }
