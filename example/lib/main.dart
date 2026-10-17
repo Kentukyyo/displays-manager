@@ -274,8 +274,8 @@ class _DisplayManagerScreenState extends State<DisplayManagerScreen> {
             onPressed: () async {
               int? id = int.tryParse(_nameOfIdController.text);
               if (id != null) {
-                final value = await displayManager
-                    .getNameByDisplayId(displays[id]?.displayId ?? -1);
+                final displayId = displays[id]?.displayId ?? -1;
+                final value = await displayManager.getNameByDisplayId(displayId);
                 setState(() {
                   _nameOfId = value ?? "";
                 });
